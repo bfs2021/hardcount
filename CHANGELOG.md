@@ -51,6 +51,7 @@ original text.
 
 ### Fixed
 
+- **An unknown `LOG_LEVEL` value stops start-up.** It used to mean `info` without a word, so a value such as `verbose`, meant as `debug`, hid the lines it was set to show. The error names `debug`, `info`, `warn` (or `warning`) and `error`; check yours before upgrading. ([#PRNUM](https://github.com/gethardcount/hardcount/pull/PRNUM))
 - **The dashboard no longer stops loading after about 10 pages a minute.** The general rate limit is now 1,000 requests a minute, up from 100. Sign-in and bootstrap keep 100 per address, set by the new `HARDCOUNT_RATE_LIMIT_AUTH_PER_MIN`. A refused page says it is trying again and reloads after `Retry-After`. ([#1502](https://github.com/gethardcount/hardcount/pull/1502))
 - **A refund made in the Stripe dashboard is now recorded.** Once it succeeds, one that fits the invoice becomes a credit note that reverses its tax; any other is flagged on the invoice to record, attach or dismiss, never by hand. `payment.refunded_in_stripe` is sent. Add `refund.created` to your Stripe webhook endpoint. ([#1500](https://github.com/gethardcount/hardcount/pull/1500))
 - **Voiding an invoice or issuing a credit note returns credit to the grants it came from.** It keeps their expiry and kind; past expiry, it expires at once. Before, expiring or promotional credit came back as never-expiring paid credit. A credit note on a paid invoice always adds its full credit ([ADR-132](docs/adr/132-returned-credit-goes-back-to-its-grants.md)). ([#1498](https://github.com/gethardcount/hardcount/pull/1498))
